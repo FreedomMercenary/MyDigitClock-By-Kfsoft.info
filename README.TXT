@@ -16,6 +16,7 @@ USAGE
 <div id="clock1"></div>
 <div id="clock2"></div>
 <div id="clock3"></div>
+<div id="clock4"></div>
 
 3. After the page is rendered, run MyDigitClock function. See the following examples.
 
@@ -23,31 +24,49 @@ $(function(){
 	$("#clock1").MyDigitClock();
 
 	$("#clock2").MyDigitClock({
-		fontSize:50, 
-		fontFamily:"Century gothic", 
+	    digitPrefix: false,
+		fontSize: 50,
+		fontFamily: "Century gothic",
 		fontColor: "#000", 
-		fontWeight:"bold", 
-		bAmPm:true,
-		background:'#fff',
-		bShowHeartBeat:true
-		});
+		fontWeight: "bold",
+		bAmPm: true,
+		background: '#fff',
+		bShowHeartBeat: true
+	});
 		
 	$("#clock3").MyDigitClock({
-		fontSize:150, 
-		fontColor:"grey",
-		background:"#fff",
+		fontSize: 150,
+		fontColor: "grey",
+		background: "#fff",
+		fontWeight: "bold",
+		timeFormat: '{HH}<span class="ch1">:</span>{MM}'
+	});
+
+	$("#clock4").MyDigitClock({
+		fontSize: 150,
+		fontColor: "grey",
+		background: "#fff",
 		fontWeight:"bold",
-		timeFormat: '{HH}<span id="ch1">:</span>{MM}'}
-	);
+		timeFormat: '{HH}<span class="ch1">:</span>{MM}',
+		timeZone: '-06:00'
+	});
 });
 
 
 DEMO
 ****
-http://www.kfsoft.info/home/digitClockDemo.php
+[Old demo URL not valid]
+
+NOTES
+*****
+New functionality from original:
+  - Correct support for noon & midnight times
+  - Additional timezone support (timeZone: '(-)XX:XX')
+  - Option to not prefix values with zero (digitPrefix: false)
 
 AUTHOR
 ******
+Chris Reynoso (https://github.com/FreedomMercenary/MyDigitClock-By-Kfsoft.info)
 KF SOFTWARE HOUSE (http://www.kfsoft.info)
 
 License

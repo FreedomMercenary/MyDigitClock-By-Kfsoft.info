@@ -1,10 +1,10 @@
 /**
  * @author Chris Reynoso
- * Homepage: http://www.kfsoft.info
+ * Homepage: https://github.com/FreedomMercenary/MyDigitClock-By-Kfsoft.info
  * Based off original: Paul Chan / KF Software House
  * Forked from: https://github.com/kfsoft/MyDigitClock-By-Kfsoft.info
  *
- * Version 0.5.2
+ * Version 0.6
  * Copyright for portions of project are held by KF Software House, 2010 as part of project MyDigitClock-By-Kfsoft.info.
  * All other copyright for project are held by Chris Reynoso, 2016.
  *
@@ -22,17 +22,48 @@
     jQuery.fn.MyDigitClock = function (options) {
         var id = $(this).get(0).id,
             getDD,
+            getDateTime,
             showClock;
         _options[id] = $.extend({}, $.fn.MyDigitClock.defaults, options);
 
+        getDateTime = function () {
+            var absoluteOffset,
+                currentDate = new Date(),
+                offset,
+                offsetDirection,
+                splitOffset,
+                timeZone = _options[id].timeZone;
+            if (!timeZone || $.type(timeZone) !== "string") {
+                return currentDate;
+            }
+            // Convert to UTC
+            currentDate = new Date(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate(), currentDate.getUTCHours(), currentDate.getUTCMinutes(), currentDate.getUTCSeconds());
+            offsetDirection = timeZone.substring(0, 1) === "-" ? -1 : 1;
+            absoluteOffset = offsetDirection === 1
+                ? timeZone
+                : timeZone.substring(1);
+            splitOffset = absoluteOffset.split(",");
+            if (splitOffset.length === 2) {
+                offset = (parseInt(splitOffset[0], 10) * 60) + parseInt(splitOffset[1], 10);
+            } else if (splitOffset.length === 1) {
+                offset = parseInt(splitOffset[0], 10) * 60;
+            } else {
+                return currentDate;
+            }
+
+            currentDate.setMinutes(currentDate.getMinutes() + (offset * offsetDirection));
+
+            return currentDate;
+        };
+
         getDD = function (num) {
-            return (num >= 10)
+            return (num >= 10 || !_options[id].digitPrefix)
                 ? num
                 : "0" + num;
         };
 
         showClock = function (id) {
-            var d = new Date(),
+            var d = getDateTime(),
                 h = d.getHours(),
                 m = d.getMinutes(),
                 s = d.getSeconds(),
@@ -68,8 +99,8 @@
 
             //toggle hands
             if (_options[id].bShowHeartBeat) {
-                obj.find("#ch1").fadeTo(800, 0.1);
-                obj.find("#ch2").fadeTo(800, 0.1);
+                obj.find(".ch1").fadeTo(800, 0.1);
+                obj.find(".ch2").fadeTo(800, 0.1);
             }
             setTimeout(function () {
                 showClock(id);
@@ -87,11 +118,13 @@
         background: "#fff",
         bAmPm: false,
         bShowHeartBeat: false,
+        digitPrefix: true,
         fontColor: "#ff2200",
         fontFamily: "Open Sans, Helvetica, Arial, Times",
         fontSize: "50px",
         fontWeight: "bold",
-        timeFormat: "{HH}<span id=\"ch1\">:</span>{MM}<span id=\"ch2\">:</span>{SS}"
+        timeFormat: "{HH}<span class=\"ch1\">:</span>{MM}<span class=\"ch2\">:</span>{SS}",
+        timeZone: null
     };
 
 })(jQuery);
