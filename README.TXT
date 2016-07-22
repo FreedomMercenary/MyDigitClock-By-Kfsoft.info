@@ -8,8 +8,8 @@ USAGE
 *****
 1. Download jquery.MyDigitClock.js add its reference to your page.
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript"></script>
-<script src="jquery.MyDigitclock.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="jquery.MyDigitClock.js"></script>
 
 2. Add div(s) to your page body.
  
