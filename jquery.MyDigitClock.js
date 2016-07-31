@@ -4,7 +4,7 @@
  * Based off original: Paul Chan / KF Software House
  * Forked from: https://github.com/kfsoft/MyDigitClock-By-Kfsoft.info
  *
- * Version 0.6
+ * Version 0.6.1
  * Copyright for portions of project are held by KF Software House, 2010 as part of project MyDigitClock-By-Kfsoft.info.
  * All other copyright for project are held by Chris Reynoso, 2016.
  *
@@ -71,7 +71,7 @@
             if (_options[id].bAmPm) {
                 if (h === 0) {
                     h = 12;
-                    ampm = " AM"
+                    ampm = " AM";
                 } else if (h === 12) {
                     ampm = " PM";
                 } else if (h > 12) {
