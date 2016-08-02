@@ -4,7 +4,7 @@
  * Based off original: Paul Chan / KF Software House
  * Forked from: https://github.com/kfsoft/MyDigitClock-By-Kfsoft.info
  *
- * Version 0.6.1
+ * Version 0.7
  * Copyright for portions of project are held by KF Software House, 2010 as part of project MyDigitClock-By-Kfsoft.info.
  * All other copyright for project are held by Chris Reynoso, 2016.
  *
@@ -63,7 +63,9 @@
         };
 
         showClock = function (id) {
-            var d = getDateTime(),
+            var customFormat = "",
+                customFormatRegex = /\{date:([^}]*)\}/g,
+                d = getDateTime(),
                 h = d.getHours(),
                 m = d.getMinutes(),
                 s = d.getSeconds(),
@@ -86,6 +88,11 @@
             templateStr = templateStr.replace("{HH}", getDD(h));
             templateStr = templateStr.replace("{MM}", getDD(m));
             templateStr = templateStr.replace("{SS}", getDD(s));
+            // Handle custom format
+            if (_options[id].dateFormatter && templateStr.indexOf("{date:") !== -1) {
+                customFormat = customFormatRegex.exec(templateStr)[1];
+                templateStr = templateStr.replace("{date:" + customFormat + "}", _options[id].dateFormatter(customFormat, d));
+            }
 
             var obj = $("#" + id);
             obj.css("fontSize", _options[id].fontSize);
@@ -118,12 +125,13 @@
         background: "#fff",
         bAmPm: false,
         bShowHeartBeat: false,
+        dateFormatter: null,
         digitPrefix: true,
         fontColor: "#ff2200",
         fontFamily: "Open Sans, Helvetica, Arial, Times",
         fontSize: "50px",
         fontWeight: "bold",
-        timeFormat: "{HH}<span class=\"ch1\">:</span>{MM}<span class=\"ch2\">:</span>{SS}",
+        timeFormat: "{date:M d, yy} {HH}<span class=\"ch1\">:</span>{MM}<span class=\"ch2\">:</span>{SS}",
         timeZone: null
     };
 
